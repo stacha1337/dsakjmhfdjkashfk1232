@@ -9,8 +9,8 @@ var firstname = params.get("firstname");
 var surname = params.get("surname");
 var image = params.get("image");
 
-function hideAddressBar(){
-  if(document.documentElement.scrollHeight < window.outerHeight / window.devicePixelRatio)
+function hideAddressBar() {
+  if (document.documentElement.scrollHeight < window.outerHeight / window.devicePixelRatio)
     document.documentElement.style.height = (window.outerHeight / window.devicePixelRatio) + 'px';
   setTimeout(window.scrollTo(1, 1), 0);
 }
@@ -53,7 +53,7 @@ setClock();
 function setClock() {
     date = new Date();
 
-    // Pobieranie godzin, minut i sekund, a następnie formatowanie ich z zerem na początku
+    // Formatuj godziny, minuty i sekundy z zerem na początku
     let hours = String(date.getHours()).padStart(2, '0');
     let minutes = String(date.getMinutes()).padStart(2, '0');
     let seconds = String(date.getSeconds()).padStart(2, '0');
@@ -70,3 +70,10 @@ function setClock() {
 function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
 }
+
+// Zablokowanie przewijania poziomego
+document.documentElement.style.overflowX = "hidden"; // CSS dla całego dokumentu
+
+window.addEventListener('resize', () => {
+  document.documentElement.style.overflowX = "hidden"; // Wymuszenie w razie zmiany rozmiaru okna
+});
