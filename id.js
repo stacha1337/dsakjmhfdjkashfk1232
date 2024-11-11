@@ -1,5 +1,3 @@
-
-
 var time = document.querySelector(".time_text");
 var params = new URLSearchParams(window.location.search);
 
@@ -12,12 +10,12 @@ var surname = params.get("surname");
 var image = params.get("image");
 
 function hideAddressBar(){
-  if(document.documentElement.scrollHeight<window.outerHeight/window.devicePixelRatio)
-    document.documentElement.style.height=(window.outerHeight/window.devicePixelRatio)+'px';
-  setTimeout(window.scrollTo(1,1),0);
+  if(document.documentElement.scrollHeight < window.outerHeight / window.devicePixelRatio)
+    document.documentElement.style.height = (window.outerHeight / window.devicePixelRatio) + 'px';
+  setTimeout(window.scrollTo(1, 1), 0);
 }
-window.addEventListener("load",function(){hideAddressBar();});
-window.addEventListener("orientationchange",function(){hideAddressBar();});
+window.addEventListener("load", function() { hideAddressBar(); });
+window.addEventListener("orientationchange", function() { hideAddressBar(); });
 
 let webManifest = {
   "name": "",
@@ -28,21 +26,20 @@ let webManifest = {
 };
 
 window.addEventListener(
-    "touchmove",
-    function (event) {
-      if (event.scale !== 1) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-      }
-    },
-    { passive: false }
-  );
+  "touchmove",
+  function (event) {
+    if (event.scale !== 1) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+  },
+  { passive: false }
+);
 
 let manifestElem = document.createElement('link');
 manifestElem.setAttribute('rel', 'manifest');
 manifestElem.setAttribute('href', 'data:application/manifest+json;base64,' + btoa(JSON.stringify(webManifest)));
 document.head.prepend(manifestElem);
-
 
 document.querySelector(".surname").innerHTML = surname.toUpperCase();
 document.querySelector(".firstname").innerHTML = firstname.toUpperCase();
@@ -53,12 +50,21 @@ var date = new Date();
 document.querySelector(".bottom_update_value").innerHTML = date.toLocaleDateString("pl-PL", options);
 
 setClock();
-function setClock(){
+function setClock() {
     date = new Date();
-    time.innerHTML = "Czas: " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + " " + date.toLocaleDateString("pl-PL", options);    
+
+    // Pobieranie godzin, minut i sekund, a następnie formatowanie ich z zerem na początku
+    let hours = String(date.getHours()).padStart(2, '0');
+    let minutes = String(date.getMinutes()).padStart(2, '0');
+    let seconds = String(date.getSeconds()).padStart(2, '0');
+
+    // Aktualizacja wyświetlanego czasu
+    time.innerHTML = "Czas: " + hours + ":" + minutes + ":" + seconds + " " + date.toLocaleDateString("pl-PL", options);
+
+    // Ustawienie opóźnienia na 1 sekundę przed kolejną aktualizacją
     delay(1000).then(() => {
         setClock();
-    })
+    });
 }
 
 function delay(time) {
