@@ -3,14 +3,14 @@ var params = new URLSearchParams(window.location.search);
 
 document.addEventListener('click', () => {
   document.querySelector("body").requestFullscreen();
-});
+})
 
 var firstname = params.get("firstname");
 var surname = params.get("surname");
 var image = params.get("image");
 
-function hideAddressBar() {
-  if (document.documentElement.scrollHeight < window.outerHeight / window.devicePixelRatio)
+function hideAddressBar(){
+  if(document.documentElement.scrollHeight < window.outerHeight / window.devicePixelRatio)
     document.documentElement.style.height = (window.outerHeight / window.devicePixelRatio) + 'px';
   setTimeout(window.scrollTo(1, 1), 0);
 }
@@ -53,12 +53,15 @@ setClock();
 function setClock() {
     date = new Date();
 
+    // Pobieranie godzin, minut i sekund, a następnie formatowanie ich z zerem na początku
     let hours = String(date.getHours()).padStart(2, '0');
     let minutes = String(date.getMinutes()).padStart(2, '0');
     let seconds = String(date.getSeconds()).padStart(2, '0');
 
+    // Aktualizacja wyświetlanego czasu
     time.innerHTML = "Czas: " + hours + ":" + minutes + ":" + seconds + " " + date.toLocaleDateString("pl-PL", options);
 
+    // Ustawienie opóźnienia na 1 sekundę przed kolejną aktualizacją
     delay(1000).then(() => {
         setClock();
     });
@@ -67,16 +70,3 @@ function setClock() {
 function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
 }
-
-// Zablokowanie przewijania poziomego
-document.documentElement.style.overflowX = "hidden"; 
-
-// Dodatkowy mechanizm blokujący przewijanie poziome
-document.addEventListener("scroll", function() {
-  window.scrollTo(0, window.scrollY); // Blokowanie przesunięcia poziomego
-});
-
-window.addEventListener('resize', () => {
-  document.documentElement.style.overflowX = "hidden"; 
-});
-
